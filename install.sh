@@ -1,6 +1,10 @@
 #!/bin/bash
 
-cp tailwin.desktop /usr/share/xsessions
-cp tialwin.png /usr/share/pixmaps
+echo "---cp tailwin.desktop /usr/share/xsessions---"
+sudo cp tailwin.desktop /usr/share/xsessions
+echo "---cp tialwin.png /usr/share/pixmaps---"
+sudo cp tialwin.png /usr/share/pixmaps
+echo "---cargo bulid --release---"
 cargo bulid --release
-ln -f /target/release/tailwin /usr/bin/tailwin
+echo "---ln -f /target/release/tailwin /usr/bin/tailwin---"
+sudo ln -f /target/release/tailwin /usr/bin/tailwin
