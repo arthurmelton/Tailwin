@@ -10,7 +10,7 @@ if [ -f "$FILE" ]; then
     echo "---cargo build --release---"
     cargo build --release
     echo "---ln -f ./target/release/tailwin /usr/bin/tailwin---"
-    sudo ln -f ./target/release/Tailwin /usr/bin/tailwin
+    sudo ln -f ./target/release/tailwin /usr/bin/tailwin
 else 
     echo "---mkdir ~/.config/tailwin---"
     mkdir ~/.config/tailwin
