@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Tailwin
+Comment=Window manager written in Rust
+Exec=tailwin
+Icon=tailwin
+Terminal=false
+StartupNotify=false
+Categories=Application;
