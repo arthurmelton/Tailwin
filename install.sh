@@ -14,8 +14,8 @@ if [ -f "$FILE" ]; then
 else 
     echo "---mkdir ~/.config/tailwin---"
     mkdir ~/.config/tailwin
-    echo "---printf 'fn on_startup() {\n\t// Do stuff\n}' > ~/.config/tailwin/tailwin.rs---"
-    printf "pub fn on_startup() {\n\t// Do stuff\n}" > ~/.config/tailwin/tailwin.rs
+    echo "---printf 'fn on_startup() {\n\t// Do stuff\n}\n\npub fn on_key(key:u32) {\n\t// Do stuff\n}' > ~/.config/tailwin/tailwin.rs---"
+    printf 'fn on_startup() {\n\t// Do stuff\n}\n\npub fn on_key(key:u32) {\n\t// Do stuff\n}' > ~/.config/tailwin/tailwin.rs
     echo "---ln -f ~/.config/tailwin/tailwin.rs ./src/tailwin.rs---"
     ln -f ~/.config/tailwin/tailwin.rs ./src/tailwin.rs
     echo ""

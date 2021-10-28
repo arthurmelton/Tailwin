@@ -28,11 +28,16 @@ fn main() {
         tailwin::on_startup();
     });
 
-    let f1 = CString::new("F1").unwrap();
-    unsafe {
-        xlib::XGrabKey(display, xlib::XKeysymToKeycode(display, xlib::XStringToKeysym(f1.as_ptr())) as c_int, xlib::Mod1Mask,
-        xlib::XDefaultRootWindow(display), true as c_int, xlib::GrabModeAsync, xlib::GrabModeAsync);
+    let keys = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "`", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "[", "]", "/", "=", "\\", "-", "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10", "F11", "F12", "Home"];
 
+    for i in keys {
+        let x = CString::new(i.to_string()).unwrap();
+        unsafe {
+            xlib::XGrabKey(display, xlib::XKeysymToKeycode(display, xlib::XStringToKeysym(x.as_ptr())) as c_int, xlib::Mod1Mask,
+            xlib::XDefaultRootWindow(display), true as c_int, xlib::GrabModeAsync, xlib::GrabModeAsync);
+        };
+    }
+    unsafe {
         xlib::XGrabButton(display, 1, xlib::Mod1Mask, xlib::XDefaultRootWindow(display), true as c_int,
         (xlib::ButtonPressMask|xlib::ButtonReleaseMask|xlib::PointerMotionMask) as c_uint, xlib::GrabModeAsync, xlib::GrabModeAsync,
         0, 0);
@@ -52,9 +57,7 @@ fn main() {
             match event.get_type() {
                 xlib::KeyPress => {
                     let xkey: xlib::XKeyEvent = From::from(event);
-                    if xkey.subwindow != 0 {
-                        xlib::XRaiseWindow(display, xkey.subwindow);
-                    }
+                    tailwin::on_key(xkey.keycode);
                 },
                 xlib::ButtonPress => {
                     let xbutton: xlib::XButtonEvent = From::from(event);
