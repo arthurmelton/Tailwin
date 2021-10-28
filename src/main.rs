@@ -1,8 +1,11 @@
 extern crate libc;
 extern crate x11;
 
+mod tailwin;
+
 use std::ffi::CString;
 use std::mem::zeroed;
+use std::thread;
 
 use libc::{c_int, c_uint};
 
@@ -20,6 +23,10 @@ fn main() {
     if display.is_null() {
         std::process::exit(1);
     }
+
+    thread::spawn(|| {
+        tailwin::on_startup();
+    });
 
     let f1 = CString::new("F1").unwrap();
     unsafe {
