@@ -18,4 +18,6 @@ else
     printf "pub fn on_startup() {\n\t// Do stuff\n}" > ~/.config/tailwin/tailwin.rs
     echo "---ln -f ~/.config/tailwin/tailwin.rs ./src/tailwin.rs---"
     ln -f ~/.config/tailwin/tailwin.rs ./src/tailwin.rs
+    echo ""
+    echo "Edit your config file in ~/.config/tailwin/tailwin.rs and then run the install script again"
 fi
