@@ -46,6 +46,12 @@ fn main() {
         unsafe {
             xlib::XGrabKey(display, xlib::XKeysymToKeycode(display, xlib::XStringToKeysym(x.as_ptr())) as c_int, modmask,
             xlib::XDefaultRootWindow(display), true as c_int, xlib::GrabModeAsync, xlib::GrabModeAsync);
+            xlib::XGrabKey(display, xlib::XKeysymToKeycode(display, xlib::XStringToKeysym(x.as_ptr())) as c_int, modmask|xlib::ShiftMask,
+            xlib::XDefaultRootWindow(display), true as c_int, xlib::GrabModeAsync, xlib::GrabModeAsync);
+            xlib::XGrabKey(display, xlib::XKeysymToKeycode(display, xlib::XStringToKeysym(x.as_ptr())) as c_int, modmask|xlib::ControlMask,
+            xlib::XDefaultRootWindow(display), true as c_int, xlib::GrabModeAsync, xlib::GrabModeAsync);
+            xlib::XGrabKey(display, xlib::XKeysymToKeycode(display, xlib::XStringToKeysym(x.as_ptr())) as c_int, modmask|xlib::ControlMask|xlib::ShiftMask,
+            xlib::XDefaultRootWindow(display), true as c_int, xlib::GrabModeAsync, xlib::GrabModeAsync);
         };
     }
     unsafe {
@@ -68,7 +74,11 @@ fn main() {
             match event.get_type() {
                 xlib::KeyPress => {
                     let xkey: xlib::XKeyEvent = From::from(event);
-                    match tailwin::on_key(xkey.keycode).as_str() {
+                    let mut state:i8 = (xkey.state-64) as i8;
+                    if state > 1 {
+                        state -= 2;
+                    }
+                    match tailwin::on_key(xkey.keycode, state).as_str() {
                         "null" => {},
                         "destroy" => {xlib::XDestroyWindow(display, xkey.subwindow);},
                         _ => {Command::new("sh").args(&["-c", "zenity --info --text='Sorry but you returned something I dont understand in the on_key'"]).spawn().expect("failed to execute process");}
