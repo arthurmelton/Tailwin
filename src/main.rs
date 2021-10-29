@@ -28,7 +28,7 @@ fn main() {
         tailwin::on_startup();
     });
 
-    let keys = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "`", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "[", "]", "/", "=", "\\", "-", "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10", "F11", "F12", "Home"];
+    let keys = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "`", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "[", "]", "/", "=", "\\", "-", "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10", "F11", "F12", "Home", "SPACE"];
 
     for i in keys {
         let x = CString::new(i.to_string()).unwrap();
@@ -59,7 +59,7 @@ fn main() {
                     let xkey: xlib::XKeyEvent = From::from(event);
                     match tailwin::on_key(xkey.keycode).as_str() {
                         "null" => {},
-                        "destroy" => {xlib::XDestroyWindow(display, start.subwindow);},
+                        "destroy" => {xlib::XDestroyWindow(display, xkey.subwindow);},
                         _ => {Command::new("sh").args(&["-c", "zenity --info --text='billy'"]).spawn().expect("failed to execute process");}
                     }
                 },
