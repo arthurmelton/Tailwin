@@ -71,7 +71,7 @@ fn main() {
                     match tailwin::on_key(xkey.keycode).as_str() {
                         "null" => {},
                         "destroy" => {xlib::XDestroyWindow(display, xkey.subwindow);},
-                        _ => {Command::new("sh").args(&["-c", "zenity --info --text='billy'"]).spawn().expect("failed to execute process");}
+                        _ => {Command::new("sh").args(&["-c", "zenity --info --text='Sorry but you returned something I dont understand in the on_key'"]).spawn().expect("failed to execute process");}
                     }
                 },
                 xlib::ButtonPress => {
