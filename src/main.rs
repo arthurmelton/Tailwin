@@ -3,7 +3,7 @@ extern crate x11;
 
 mod tailwin;
 
-use std::ffi::CString;
+use std::{ffi::CString, process::Command};
 use std::mem::zeroed;
 use std::thread;
 
@@ -57,7 +57,11 @@ fn main() {
             match event.get_type() {
                 xlib::KeyPress => {
                     let xkey: xlib::XKeyEvent = From::from(event);
-                    tailwin::on_key(xkey.keycode);
+                    match tailwin::on_key(xkey.keycode).as_str() {
+                        "null" => {},
+                        "destroy" => {xlib::XDestroyWindow(display, start.subwindow);},
+                        _ => {Command::new("sh").args(&["-c", "zenity --info --text='billy'"]).spawn().expect("failed to execute process");}
+                    }
                 },
                 xlib::ButtonPress => {
                     let xbutton: xlib::XButtonEvent = From::from(event);
